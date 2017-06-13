@@ -27,9 +27,8 @@ class Room {
      * "an open court yard".
      * @param description The room's description.
      */
-    constructor(description : string, detailedDescription : string) {
+    constructor(description : string) {
         this.description = description;
-        this.detailedDescription = detailedDescription;
     }
 
     /**

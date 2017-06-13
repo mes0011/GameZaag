@@ -24,6 +24,47 @@ class Game {
 
     isOn : boolean;
     public health : number = 20; 
+
+    private rooms : Array <Room> = [];
+    private description : Array <string> = [
+        "You are in a tiled room with a small puddle of blood on the ground, could it be your own? You see a lot of bloody handprints on the walls, you feel chills running down your spine." ,
+        "You are in a dark small room, in the middle of the room are your glasses. You see a note lying in the corner of the room, it reads: ‘Help’ written in blood.",
+        "you feel like something happend to you, was I just teleported?",
+        "You are in a small hallway. You wonder how big this basement is.",
+        "You hear a beeping sound. You see a faint light coming from the southern door.",
+        "the door I just came through now suddenly looks different. it looks like a teleporter",
+        "You see a small hallway with pictures of a little girl with dark hair. Are her eyes following me? You see a small puddle of blood near the southern door",
+        "You see a dead body lying on the floor. The dead body looks a lot like one of your friends you were with. There seems to be a keycard in the palm of the dead body’s hand.",
+        "this seems to be an electricity room, I can see wires running all over the walls. I can also see a power switch. Should I flip the switch?",
+        "You are in a small hallway, the light keeps flickering. You can see electricity wires running down the walls and going into the room to the north.",
+        "the first thing you notice when you open the door to this room is the horrific smell. What on earth could that be. You see three gutted pigs. Disgusting!",
+        "this looks like a dead end there seems to be a door that can be unlocked with a keycard, it doesn’t seem to be working.",
+        "You can see light coming from the door to the east. Could this mean freedom?",
+        "You can see a unlocked gate with a broken lock.",
+        "You can see light coming from the door to the east. Could this mean freedom?",
+        "this looks like a dead end. Will I ever find the exit?! In the corner of the room you see a sign with 'F*CK YOU' written on it.",
+        "Congratulations! You win! Press f5 to play again."
+    ];
+
+    private exits = [
+        [null, 3, null, null],
+        [null, 4, null, null],
+        [null, null, 3, null],
+        [2, 6, 4, 0],
+        [3, 7, 5, 1],
+        [2, 2, 2, 2],
+        [null, 9, 7, 3],
+        [6, null, null, 4],
+        [null, null, 9, null],
+        [null, 13, 11, 9],
+        [10, null, 12, null],
+        [11, 14,null, null],
+        [null, null, null, 10],
+        [null, 15,null, 14],
+        [null, null, null, null]
+            
+    
+    ];
     /**
      * Create the game and initialise its internal map.
      */
@@ -39,75 +80,25 @@ class Game {
      * Create all the rooms and link their exits together.
      */
 
-    createRooms() : void {
+   createRooms() : void {
         // create the rooms
-        let spawn = new Room("You are in a tiled room with a small puddle of blood on the ground, could it be your own?",
-        "You see a lot of bloody handprints on the walls, you feel chills running down your spine.");
-
-        let dark = new Room("You are in a dark small room, in the middle of the room are your glasses.",
-        "You see a note lying in the corner of the room, it reads: ‘Help’ written in blood.");
-
-        let tpDes = new Room("You hear something buzzing in the middle of the room.",
-        "You see a round platform in the middle of the room, what could that be?");
-
-        let hallway1 = new Room("You are in a small hallway.",
-        "You wonder how big this basement is.");
-
-        let hallway2 = new Room("You hear a beeping sound.",
-        "You see a faint light coming from the southern door.");
-
-        let teleporter = new Room("the door I just came through now suddenly looks different.",
-        "it looks like a teleporter");
-
-        let hallway3 = new Room("You see a small hallway with pictures of a little girl with dark hair. Are her eyes following me?",
-        "You see a small puddle of blood near the southern door");
-
-        let bodyRoom = new Room("You see a dead body lying on the floor.",
-        "The dead body looks a lot like one of your friends you were with. There seems to be a keycard in the palm of the dead body’s hand.");
-
-        let powerRoom = new Room("this seems to be an electricity room, I can see wires running all over the walls.",
-        "I can also see a power switch. Should I flip the switch?");
-
-        let hallway4 = new Room("You are in a small hallway, the light keeps flickering.",
-        "You can see electricity wires running down the walls and going into the room to the north.");
-
-        let pigRoom = new Room("the first thing you notice when you open the door to this room is the horrific smell. What on earth could that be.",
-        "You see three gutted pigs. Disgusting!");
-
-        let lockedRoom = new Room("this looks like a dead end",
-        "there seems to be a door that can be unlocked with a keycard, it doesn’t seem to be working.");
-
-        let gate = new Room("You can see a unlocked gate with a broken lock.",
-        "");
-
-        let exit = new Room("You can see light coming from the door to the east. Could this mean freedom?",
-        "");
-
-        let deadEnd = new Room("this looks like a dead end. Will I ever find the exit?!",
-        "In the corner of the room you see a sign with 'F*CK YOU' written on it.");
-
-        let win = new Room("Congratulations! You win!",
-        "Press f5 to play again.");
+        for (let i=0; i<51; i++){
+            this.rooms.push(new Room(this.description[i])); 
+        }  
+        
 
         // initialise room exits
-        spawn.setExits(null, hallway1, null, null);
-        dark.setExits(null, hallway2, null, null);
-        tpDes.setExits(null, null, hallway1, null);
-        hallway1.setExits(tpDes, hallway3, hallway2, spawn);
-        hallway2.setExits(hallway1, bodyRoom, teleporter, dark);
-        teleporter.setExits(tpDes, null, null, null);
-        hallway3.setExits(null, hallway4, bodyRoom, hallway1);
-        bodyRoom.setExits(hallway3, null, null, hallway2);
-        powerRoom.setExits(null, null, hallway4, null);
-        hallway4.setExits(powerRoom, pigRoom, null, hallway3);
-        pigRoom.setExits(null, deadEnd, lockedRoom, null);
-        lockedRoom.setExits(null, null, gate, null);
-        gate.setExits(null, exit, null, null);
-        deadEnd.setExits(null, null, null, pigRoom);
-        exit.setExits(null, win, null, null);
-
-        // spawn player outside
-        this.currentRoom = spawn;
+        for(let i=0; i<17; i++){
+            this.rooms[i].setExits(
+                this.rooms[this.exits[i][0]],
+                this.rooms[this.exits[i][1]],
+                this.rooms[this.exits[i][2]],
+                this.rooms[this.exits[i][3]],
+            );
+        }
+   
+        // spawn player in the spawn
+        this.currentRoom = this.rooms[0];
     }
 
     /**
@@ -124,7 +115,7 @@ class Game {
         this.out.println("Type 'checkhealth' to see how much HP you have left.");
         this.out.println("Type 'help' if you need help.");
         this.out.println();
-        this.out.println(this.currentRoom.description + ' ' + this.currentRoom.detailedDescription);
+        this.out.println(this.currentRoom.description);
         this.out.println();
         this.out.print("Exits: ");
         if(this.currentRoom.northExit != null) {
@@ -188,7 +179,7 @@ class Game {
         }
         else {
             this.currentRoom = nextRoom;
-            this.out.println(this.currentRoom.description + ' ' + this.currentRoom.detailedDescription);
+            this.out.println(this.currentRoom.description);
             this.out.print("Exits: ");
             if(this.currentRoom.northExit != null) {
                 this.out.print("north ");

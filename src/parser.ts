@@ -9,7 +9,7 @@ class Parser {
         this.game = game;
         this.input = input;
         this.default = new Default(game);
-
+        //add commands below
         this.commands["help"] = new Help(game);
         this.commands["go"] = new Go(game);
         this.commands["checkhealth"] = new Checkhealth(game);

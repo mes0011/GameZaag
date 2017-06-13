@@ -19,51 +19,76 @@
 class Game {
     parser : Parser;
     out : Printer;
-
     currentRoom : Room;
-
     isOn : boolean;
     public health : number = 20; 
-
     private rooms : Array <Room> = [];
     private description : Array <string> = [
+        //spawn
         "You are in a tiled room with a small puddle of blood on the ground, could it be your own? You see a lot of bloody handprints on the walls, you feel chills running down your spine." ,
+        //glasses
         "You are in a dark small room, in the middle of the room are your glasses. You see a note lying in the corner of the room, it reads: ‘Help’ written in blood.",
+        //tpDes
         "you feel like something happend to you, was I just teleported?",
+        //hallway1
         "You are in a small hallway. You wonder how big this basement is.",
+        //hallway2
         "You hear a beeping sound. You see a faint light coming from the southern door.",
+        //teleporter
         "the door I just came through now suddenly looks different. it looks like a teleporter",
+        //hallway3
         "You see a small hallway with pictures of a little girl with dark hair. Are her eyes following me? You see a small puddle of blood near the southern door",
+        //body
         "You see a dead body lying on the floor. The dead body looks a lot like one of your friends you were with. There seems to be a keycard in the palm of the dead body’s hand.",
+        //power
         "this seems to be an electricity room, I can see wires running all over the walls. I can also see a power switch. Should I flip the switch?",
+        //hallway4
         "You are in a small hallway, the light keeps flickering. You can see electricity wires running down the walls and going into the room to the north.",
+        //pigRoom
         "the first thing you notice when you open the door to this room is the horrific smell. What on earth could that be. You see three gutted pigs. Disgusting!",
+        //door
         "this looks like a dead end there seems to be a door that can be unlocked with a keycard, it doesn’t seem to be working.",
-        "You can see light coming from the door to the east. Could this mean freedom?",
+        //gate
         "You can see a unlocked gate with a broken lock.",
-        "You can see light coming from the door to the east. Could this mean freedom?",
+        //deadEnd
         "this looks like a dead end. Will I ever find the exit?! In the corner of the room you see a sign with 'F*CK YOU' written on it.",
+        //exit
+        "You can see light coming from the door to the east. Could this mean freedom?",
+        //win
         "Congratulations! You win! Press f5 to play again."
     ];
-
+    //sets all exits to all rooms
     private exits = [
+        //spawn
         [null, 3, null, null],
+        //glasses
         [null, 4, null, null],
+        //tpDes
         [null, null, 3, null],
+        //hallway1
         [2, 6, 4, 0],
+        //hallway2
         [3, 7, 5, 1],
-        [2, 2, 2, 2],
+        //teleporter
+        [2, null, null, null],
+        //hallway3
         [null, 9, 7, 3],
+        //body
         [6, null, null, 4],
+        //power
         [null, null, 9, null],
+        //hallway4
         [null, 13, 11, 9],
+        //pigRoom
         [10, null, 12, null],
+        //door
         [11, 14,null, null],
+        //gate
         [null, null, null, 10],
+        //exit
         [null, 15,null, 14],
-        [null, null, null, null]
-            
-    
+        //win
+        [null, null, null, null]    
     ];
     /**
      * Create the game and initialise its internal map.
@@ -75,18 +100,15 @@ class Game {
         this.createRooms();
         this.printWelcome();
     }
-
     /**
      * Create all the rooms and link their exits together.
      */
-
    createRooms() : void {
         // create the rooms
         for (let i=0; i<51; i++){
             this.rooms.push(new Room(this.description[i])); 
         }  
         
-
         // initialise room exits
         for(let i=0; i<17; i++){
             this.rooms[i].setExits(
@@ -96,11 +118,9 @@ class Game {
                 this.rooms[this.exits[i][3]],
             );
         }
-   
         // spawn player in the spawn
         this.currentRoom = this.rooms[0];
     }
-
     /**
      * Print out the opening message for the player.
      */
@@ -133,7 +153,8 @@ class Game {
         this.out.println();
         this.out.print(">");
     }
-
+    
+    //gameover message
     gameOver() : void {
         this.isOn = false;
         this.out.println("Game over!");
